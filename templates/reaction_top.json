@@ -1,0 +1,11 @@
+{
+  "template_name": "reaction_top",
+  "display_name": "Reaction Top",
+  "aspect_ratio": "9:16",
+  "canvas": {"width": 1080, "height": 1920},
+  "main_video": {"x": 0, "y": 360, "width": 1080, "height": 1560, "safe_margin": 24},
+  "webcam": {"x": 32, "y": 32, "width": 320, "height": 320, "corner_radius": 40},
+  "subtitles": {"x": 32, "y": 1280, "width": 1016, "height": 220, "style": "viral"},
+  "title": {"x": 32, "y": 1600, "width": 1016, "height": 180},
+  "branding": {"x": 32, "y": 1760, "width": 300, "height": 100}
+}

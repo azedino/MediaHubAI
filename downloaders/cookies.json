@@ -1,0 +1,110 @@
+[
+  {
+    "domain": ".x.com",
+    "name": "__cf_bm",
+    "value": "krWeBKZ0j7T.AHUTVneByI89HRZIy4wNcZeobbetB8w-1782621182.385917-1.0.1.1-we._hchTxgsGS0v64UQOKAAzueLN0T3GkSrk.7OcFdrQ1BV0ggE.FSxCxI.FZFtC68KQxT.LxOHMqwCYLt5lMJxGF_ulBhqAb32H8UzNjLm2JWnyQVyssRzOsPmtz_4L",
+    "path": "/"
+  },
+  {
+    "domain": ".x.com",
+    "name": "__cuid",
+    "value": "6bc26dc6-4fd5-44f1-8e20-244a5e87d999",
+    "path": "/"
+  },
+  {
+    "domain": ".x.com",
+    "name": "auth_token",
+    "value": "8ecb0cc7996be14859a661c7481d40ca0300b7b5",
+    "path": "/"
+  },
+  {
+    "domain": ".x.com",
+    "name": "ct0",
+    "value": "cd69a39b994f461e5a113a1ca09e5a6be4d6a2376cae9f11ec6f25e2254466ef75e918fbad1532c5b2b89045ffee0a6e48fd3a870c08fdfc1c01d4614618d1d83bbc1de8022ed1c9d20cf1a4f631d098",
+    "path": "/"
+  },
+  {
+    "domain": ".x.com",
+    "name": "d_prefs",
+    "value": "MjoxLGNvbnNlbnRfdmVyc2lvbjoyLHRleHRfdmVyc2lvbjoxMDAw",
+    "path": "/"
+  },
+  {
+    "domain": ".x.com",
+    "name": "g_state",
+    "value": "{\"i_l\":0,\"i_ll\":1782621169264,\"i_b\":\"eEo3c5/SjSOVCrZuCN44phtO58rw+RrJwhGF7hoECUM\",\"i_e\":{\"enable_itp_optimization\":24},\"i_et\":1782621169264}",
+    "path": "/"
+  },
+  {
+    "domain": ".x.com",
+    "name": "personalization_id",
+    "value": "\"v1_BhUYEKUNgdOfAVWfvPoGnA==\"",
+    "path": "/"
+  },
+  {
+    "domain": ".x.com",
+    "name": "twid",
+    "value": "u%3D1749481070838329344",
+    "path": "/"
+  },
+  {
+    "domain": ".x.com",
+    "name": "gt",
+    "value": "2071089403439550906",
+    "path": "/"
+  },
+  {
+    "domain": ".x.com",
+    "name": "guest_id",
+    "value": "v1%3A178262012583071035",
+    "path": "/"
+  },
+  {
+    "domain": ".x.com",
+    "name": "guest_id_ads",
+    "value": "v1%3A178262012583071035",
+    "path": "/"
+  },
+  {
+    "domain": ".x.com",
+    "name": "guest_id_marketing",
+    "value": "v1%3A178262012583071035",
+    "path": "/"
+  },
+  {
+    "domain": ".instagram.com",
+    "name": "csrftoken",
+    "value": "lxhZfKLFSwnp4FHkMSQnJK",
+    "path": "/"
+  },
+  {
+    "domain": ".instagram.com",
+    "name": "sessionid",
+    "value": "11466494421%3AK2p7NbqQle3vNT%3A29%3AAYg-cSLBe3sYZhh6QUE2WEGkNY6jawO0W3OmBlMEqA",
+    "path": "/"
+  },
+  {
+    "domain": ".tiktok.com",
+    "name": "ttwid",
+    "value": "1%7CcmUrpIG-n6rNJY_0AcMQzEzrpT8dJKN8Czerh8PxuaU%7C1783292424%7C53e6aead25ed98b953b8e280d63d627ce3af96c61e05c94aec3f22dcbd24a759",
+    "path": "/"
+  },
+  {
+    "domain": ".tiktok.com",
+    "name": "tt_csrf_token",
+    "value": "BpwvynpH-WEhDBWA6qLYSZJqY0rq4t_7pEwQ",
+    "path": "/"
+  },
+  {
+    "domain": ".tiktok.com",
+    "name": "msToken",
+    "value": "tmz4BQ6oLP1bABsiOymrgUSack2j1stUPWzjXhAbGF2kcaSqsfIJCQRpl93ZQR-JxNdCxzdt8AdYMQQV_zzj0-17EoeVZnypi-ynxwXzTOlq_zbL9DibSCqmnmrby1_oAgztRUQHQ1lstNEThAI-U0B8nIM0p2A=",
+    "path": "/"
+  },
+  {
+    "domain": ".tiktok.com",
+    "name": "tt_chain_token",
+    "value": "Hl2H8Nzj2VZtjE0T+OcC+w==",
+    "path": "/"
+  }
+  ]
