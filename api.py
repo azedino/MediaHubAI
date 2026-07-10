@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 import os
+import tempfile
 from dataclasses import asdict
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, UploadFile, File
 from pydantic import BaseModel, Field, validator
 
 from core.catalogs import LLM_MODELS, SHORT_TEMPLATES, TRANSCRIPTION_MODELS
@@ -15,8 +16,16 @@ from services.transcription import WhisperTranscriber
 
 app = FastAPI(title="Media Hub AI Backend")
 
-DOWNLOAD_DIR = Path(os.getenv("CLIPFORGE_DOWNLOAD_DIR", Path.cwd() / "downloads")).resolve()
-DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
+DOWNLOAD_ROOT = Path(os.getenv("CLIPFORGE_DOWNLOAD_DIR", tempfile.gettempdir())).resolve()
+DOWNLOAD_ROOT.mkdir(parents=True, exist_ok=True)
+
+
+def _new_temp_dir(prefix: str = "mediahubai_") -> Path:
+    return Path(tempfile.mkdtemp(prefix=prefix, dir=DOWNLOAD_ROOT))
+
+
+def _is_url(value: str) -> bool:
+    return value.startswith(("http://", "https://"))
 
 
 class DownloadRequest(BaseModel):
@@ -104,9 +113,10 @@ def options() -> dict:
 def download_media(request: DownloadRequest) -> DownloadResponse:
     downloader = UniversalDownloader()
     try:
+        destination = _new_temp_dir("mediahubai_download_")
         path = downloader.download(
             request.url,
-            DOWNLOAD_DIR,
+            destination,
             selected_format=request.selected_format,
             quality=request.quality,
             file_ext=request.file_ext,
@@ -115,6 +125,19 @@ def download_media(request: DownloadRequest) -> DownloadResponse:
     except Exception as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     return DownloadResponse(output_path=str(path))
+
+
+@app.post("/upload_source")
+def upload_source(file: UploadFile = File(...)) -> dict[str, str]:
+    try:
+        destination = _new_temp_dir("mediahubai_uploaded_source_")
+        destination.mkdir(parents=True, exist_ok=True)
+        target_path = destination / Path(file.filename).name
+        with open(target_path, "wb") as out_file:
+            out_file.write(file.file.read())
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+    return {"source_path": str(target_path.resolve())}
 
 
 @app.post("/shorts", response_model=ShortsResponse)
@@ -132,9 +155,19 @@ def generate_shorts(request: ShortsRequestModel) -> ShortsResponse:
     output_dir = Path(request.output_dir).expanduser().resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
     try:
-        source_path = Path(request.source).expanduser().resolve()
-        if not source_path.is_file():
-            raise ValueError("Arquivo de origem nao encontrado.")
+        if _is_url(request.source):
+            downloader = UniversalDownloader()
+            source_path = downloader.download(
+                request.source,
+                _new_temp_dir("mediahubai_shorts_source_"),
+                selected_format="Video",
+                quality="Best",
+                file_ext="mp4",
+            )
+        else:
+            source_path = Path(request.source).expanduser().resolve()
+            if not source_path.is_file():
+                raise ValueError("Arquivo de origem nao encontrado.")
 
         short_request = ShortsRequestModelCore(
             source=source_path,

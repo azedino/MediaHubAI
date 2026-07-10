@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import tempfile
 from dataclasses import asdict
 from pathlib import Path
 from typing import Any
@@ -15,7 +16,7 @@ from core.catalogs import LLM_MODELS, SHORT_TEMPLATES, TRANSCRIPTION_MODELS
 from services.hardware import HardwareSelector
 
 BACKEND_URL = os.getenv("CLIPFORGE_BACKEND_URL", "http://127.0.0.1:8000").rstrip("/")
-DEFAULT_DOWNLOAD_DIR = Path(os.getenv("CLIPFORGE_DOWNLOAD_DIR", Path.cwd() / "downloads"))
+DEFAULT_DOWNLOAD_DIR = Path(os.getenv("CLIPFORGE_DOWNLOAD_DIR", tempfile.gettempdir()))
 
 
 # Função para garantir que o backend está rodando
@@ -83,6 +84,23 @@ def api_post(path: str, payload: dict[str, Any]) -> dict[str, Any] | None:
         return None
     except requests.exceptions.RequestException as exc:
         st.error(f"Backend request failed: {exc}")
+        return None
+
+
+def api_upload_file(uploaded_file: Any) -> str | None:
+    try:
+        files = {
+            "file": (
+                uploaded_file.name,
+                uploaded_file,
+                uploaded_file.type or "application/octet-stream",
+            )
+        }
+        response = requests.post(f"{BACKEND_URL}/upload_source", files=files, timeout=900)
+        response.raise_for_status()
+        return response.json().get("source_path")
+    except requests.exceptions.RequestException as exc:
+        st.error(f"Falha ao enviar arquivo: {exc}")
         return None
 
 
@@ -167,6 +185,29 @@ with tabs[0]:
                     st.session_state.download_history.insert(0, output_path)
                     st.success("Download concluido")
                     st.code(output_path)
+                    if output_path:
+                        file_path = Path(output_path)
+                        if file_path.exists() and file_path.is_file():
+                            mime = {
+                                ".mp4": "video/mp4",
+                                ".mov": "video/quicktime",
+                                ".webm": "video/webm",
+                                ".mp3": "audio/mpeg",
+                                ".wav": "audio/wav",
+                                ".m4a": "audio/mp4",
+                                ".jpg": "image/jpeg",
+                                ".jpeg": "image/jpeg",
+                                ".png": "image/png",
+                                ".webp": "image/webp",
+                            }.get(file_path.suffix.lower(), "application/octet-stream")
+                            with open(file_path, "rb") as file_obj:
+                                file_bytes = file_obj.read()
+                            st.download_button(
+                                "Salvar no dispositivo",
+                                data=file_bytes,
+                                file_name=file_path.name,
+                                mime=mime,
+                            )
     with right:
         st.subheader("Authentication")
         st.write("Cookies are selected automatically by URL.")
@@ -178,7 +219,17 @@ with tabs[1]:
     left, right = st.columns([1.05, 0.95])
     with left:
         st.subheader("Source")
-        source = st.text_input("Source file on server", placeholder=str(DEFAULT_DOWNLOAD_DIR / "example.mp4"))
+        uploaded_source = st.file_uploader(
+            "Selecione um vídeo do seu dispositivo",
+            type=["mp4", "mov", "mkv", "webm", "avi", "m4v"],
+            help="Faça upload de um vídeo local para criar shorts diretamente do seu dispositivo.",
+        )
+        if uploaded_source is not None:
+            st.success(f"Arquivo local selecionado: {uploaded_source.name}")
+        source = st.text_input(
+            "Source URL or server path",
+            placeholder="https://youtube.com/... ou caminho do arquivo no servidor",
+        )
         preset = st.selectbox(
             "Destination",
             ["youtube_shorts", "tiktok", "instagram_reels", "vertical_feed", "square"],
@@ -248,11 +299,20 @@ with tabs[1]:
     caption_font = st.text_input("Caption font", value="Arial")
 
     if st.button("Create shorts", type="primary"):
-        if not source:
-            st.error("Informe o caminho do arquivo de origem no servidor.")
+        source_path = source
+        if uploaded_source is not None:
+            with st.spinner("Enviando vídeo local..."):
+                uploaded_path = api_upload_file(uploaded_source)
+            if uploaded_path:
+                source_path = uploaded_path
+            else:
+                source_path = ""
+
+        if not source_path:
+            st.error("Informe um link ou selecione um vídeo local para criar shorts.")
         else:
             payload = {
-                "source": source,
+                "source": source_path,
                 "output_dir": str(DEFAULT_DOWNLOAD_DIR / "shorts"),
                 "preset": preset,
                 "clips_count": clips_count,
@@ -274,6 +334,21 @@ with tabs[1]:
                 st.success("Short criado")
                 for path in result.get("outputs", []):
                     st.code(path)
+                    file_path = Path(path)
+                    if file_path.exists() and file_path.is_file():
+                        mime = {
+                            ".mp4": "video/mp4",
+                            ".mov": "video/quicktime",
+                            ".webm": "video/webm",
+                        }.get(file_path.suffix.lower(), "application/octet-stream")
+                        with open(file_path, "rb") as file_obj:
+                            file_bytes = file_obj.read()
+                        st.download_button(
+                            f"Baixar {file_path.name}",
+                            data=file_bytes,
+                            file_name=file_path.name,
+                            mime=mime,
+                        )
                 for warning in result.get("warnings", []):
                     st.warning(warning)
 
