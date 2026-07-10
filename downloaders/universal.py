@@ -10,13 +10,10 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any, cast
 
-try:
-    from imageio_ffmpeg import get_ffmpeg_exe
-except ImportError:
-    get_ffmpeg_exe = None
-
 from yt_dlp import YoutubeDL
 from yt_dlp.utils import DownloadError
+
+from services.ffmpeg import resolve_ffmpeg_executable
 
 from core.errors import ClipForgeError, JobCancelledError
 from core.models import MediaType
@@ -182,16 +179,11 @@ class UniversalDownloader(Downloader):
             "no_warnings": True,
             "concurrent_fragment_downloads": 4,
         }
-        ffmpeg = Path(__file__).resolve().parents[1] / ("ffmpeg.exe" if os.name == "nt" else "ffmpeg")
-        if ffmpeg.is_file():
-            options["ffmpeg_location"] = str(ffmpeg.parent)
-        elif get_ffmpeg_exe is not None:
-            try:
-                imageio_path = Path(get_ffmpeg_exe())
-                if imageio_path.is_file():
-                    options["ffmpeg_location"] = str(imageio_path.parent)
-            except Exception:
-                pass
+        try:
+            ffmpeg_path = resolve_ffmpeg_executable()
+            options["ffmpeg_location"] = str(ffmpeg_path.parent)
+        except Exception:
+            pass
 
         if media_type is MediaType.AUDIO:
             codec = extension if extension in {"mp3", "wav", "m4a", "opus", "flac"} else "mp3"
