@@ -2,7 +2,7 @@
   {
     "domain": ".x.com",
     "name": "__cf_bm",
-    "value": "krWeBKZ0j7T.AHUTVneByI89HRZIy4wNcZeobbetB8w-1782621182.385917-1.0.1.1-we._hchTxgsGS0v64UQOKAAzueLN0T3GkSrk.7OcFdrQ1BV0ggE.FSxCxI.FZFtC68KQxT.LxOHMqwCYLt5lMJxGF_ulBhqAb32H8UzNjLm2JWnyQVyssRzOsPmtz_4L",
+    "value": "Iwntx__h9ygXhhLWemRFz05bT6T1xs6tnV_.b6UTu8g-1783718995.2523682-1.0.1.1-5GDjtoSj4DpyhFcTFF9cB_prnKNpGSa8CNmLFH3pusX0iTM9jKTGgshz9uMn8ekE.ygguv6ZJbUUu8R7iGjSy3wS6WqJv7LA.AZUfZ2tLBduOfD6IsupbMmaAtKGaBib",
     "path": "/"
   },
   {
@@ -14,7 +14,7 @@
   {
     "domain": ".x.com",
     "name": "auth_token",
-    "value": "8ecb0cc7996be14859a661c7481d40ca0300b7b5",
+    "value": "9c9c4491dfd3050d8425e04af32d2e55bba32ae4",
     "path": "/"
   },
   {
@@ -69,6 +69,18 @@
     "domain": ".x.com",
     "name": "guest_id_marketing",
     "value": "v1%3A178262012583071035",
+    "path": "/"
+  },
+  {
+    "domain": ".x.com",
+    "name": "external_referer",
+    "value": "padhuUp37zjgzgv1mFWxJ12Ozwit7owX|0|8e8t2xd8A2w%3D",
+    "path": "/"
+  },
+  {
+    "domain": ".x.com",
+    "name": "lang",
+    "value": "pt",
     "path": "/"
   },
   {
