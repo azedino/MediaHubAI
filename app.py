@@ -8,11 +8,39 @@ from typing import Any
 import requests
 import streamlit as st
 
+import subprocess
+import time
+
 from core.catalogs import LLM_MODELS, SHORT_TEMPLATES, TRANSCRIPTION_MODELS
 from services.hardware import HardwareSelector
 
 BACKEND_URL = os.getenv("CLIPFORGE_BACKEND_URL", "http://127.0.0.1:8000").rstrip("/")
 DEFAULT_DOWNLOAD_DIR = Path(os.getenv("CLIPFORGE_DOWNLOAD_DIR", Path.cwd() / "downloads"))
+
+
+# Função para garantir que o backend está rodando
+@st.cache_resource
+def iniciar_backend():
+    # Inicia o uvicorn em segundo plano (background process)
+    # Substitua "api:app" pelo caminho correto do seu arquivo da API
+    processo = subprocess.Popen(
+        ["uvicorn", "api:app", "--host", "127.0.0.1", "--port", "8000"]
+    )
+    
+    # Aguarda alguns segundos para a API subir completamente antes de liberar o app
+    time.sleep(3)
+    return processo
+
+# Garante que a API vai rodar uma única vez (graças ao cache_resource)
+iniciar_backend()
+
+# Para fazer requisições ao seu backend de dentro do Streamlit, use sempre o IP local:
+if st.button("Chamar API"):
+    try:
+        resposta = requests.get("http://127.0.0")
+        st.write(resposta.json())
+    except Exception as e:
+        st.error(f"Erro ao conectar na API: {e}")
 
 st.set_page_config(page_title="Media Hub AI", layout="wide")
 
