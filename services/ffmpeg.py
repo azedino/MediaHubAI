@@ -9,6 +9,11 @@ import subprocess
 import threading
 from collections import deque
 from collections.abc import Callable, Iterable
+
+try:
+    from imageio_ffmpeg import get_ffmpeg_exe
+except ImportError:
+    get_ffmpeg_exe = None
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -53,6 +58,13 @@ class FFmpegService:
         system_binary = shutil.which("ffmpeg")
         if system_binary:
             candidates.append(Path(system_binary))
+
+        if get_ffmpeg_exe:
+            try:
+                imageio_path = Path(get_ffmpeg_exe())
+                candidates.append(imageio_path)
+            except Exception:
+                pass
 
         for candidate in candidates:
             if candidate and candidate.is_file():
