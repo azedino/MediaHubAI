@@ -106,5 +106,29 @@
     "name": "tt_chain_token",
     "value": "Hl2H8Nzj2VZtjE0T+OcC+w==",
     "path": "/"
+  },
+  {
+    "domain": ".youtube.com",
+    "name": "APISID",
+    "value": "JofPhZZemXesDgdA/AhygO8Kxf8j_Fvt3q",
+    "path": "/"
+  },
+  {
+    "domain": ".youtube.com",
+    "name": "LOGIN_INFO",
+    "value": "AFmmF2swRAIgPqC-OpUYNBccLnDBN0SRss7qNAA7D9_JHnzINtqH9EcCIFu9-32OyUthC_8bIE0K5Wa8li7XCa3MTp_5Dxf1VHic:QUQ3MjNmeDQwbjk0UzV4NjNMWXBsOXFUQ2V0elhxdjRXNDFuVVBmM0FYY3BFV0JRSW9NOFA3T1htSDBLNmZsVV83ejdsMVVUVkIycnVCUFlqYWFRSHo0SHNSMGtpNmVBQmw5VzNUVFpIbkc2N0NFMHp2eERzZmtiWWhXc29lU3U1RzZPQ1JVcFh6aVJsQl9WTnY3UkpvcF9sUzZUTWZJN2Jn",
+    "path": "/"
+  },
+  {
+    "domain": ".youtube.com",
+    "name": "SSID",
+    "value": "As5KWU_9nmiOLYlyD",
+    "path": "/"
+  },
+  {
+    "domain": ".youtube.com",
+    "name": "__Secure-YNID",
+    "value": "20.YT=CkTlVai34JGXJ6_l4q9tPUOybOQCzNjMgtmeRj2d0RcNeFzKgzS7o3XPNHvPtGTLuBfxWDTBnfi3xJQpZY6FUxppv_guAyo5A65JEpBTuwkqdtJUsiZcSym8ym-3HVHoo8cu6qFdWvtF-l3LypdO7DgCXxUOgIlyZobVZ_vkFnDyDAIeFtD6WJJRbkOw7cigOV7Is12CKkRiXZbE1VmHFW2fiw_JycDZeTiDURtM-3Shpeo4dplxYlO197Wk0Tz-dEvq8XYyy35a9wyjvFQN_PppcIWvRXWGL4Yieu_usqdydkNWBD24w5ZefnfNfQpW9jSLflCGkJTYnLQzYrdylg",
+    "path": "/"
   }
   ]
